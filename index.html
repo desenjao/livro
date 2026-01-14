@@ -13,10 +13,8 @@
     <!-- Lucide Icons -->
     <script src="https://unpkg.com/lucide@latest"></script>
     
-    <style>
-        /* Removido todas as animações, transições, hover effects, e elementos interativos */
-        
- /* ===== RESET & BASE ===== */
+  <style>
+/* ===== RESET & BASE - OTIMIZADO ===== */
 * {
     margin: 0;
     padding: 0;
@@ -24,6 +22,7 @@
 }
 
 :root {
+    /* Cores */
     --verde-primario: #2d6a4f;
     --verde-secundario: #52b788;
     --verde-claro: #d8f3dc;
@@ -33,36 +32,82 @@
     --cinza-bg: #f8f9fa;
     --branco: #ffffff;
     --acento: #1b4332;
+    
+    /* Tipografia */
     --font-display: 'Playfair Display', serif;
     --font-body: 'Inter', sans-serif;
-    --space-xs: 0.5rem;
-    --space-sm: 1rem;
-    --space-md: 1.5rem;
-    --space-lg: 2rem;
-    --space-xl: 3rem;
-    --space-xxl: 4rem;
-    --radius-sm: 4px;
-    --radius-md: 8px;
-    --radius-lg: 12px;
+    
+    /* Espaçamentos fluidos com valores mais seguros */
+    --space-unit: 0.25rem;
+    --space-3xs: calc(var(--space-unit) * 1);  /* 0.25rem */
+    --space-2xs: calc(var(--space-unit) * 2);  /* 0.5rem */
+    --space-xs: calc(var(--space-unit) * 3);   /* 0.75rem */
+    --space-sm: calc(var(--space-unit) * 4);   /* 1rem */
+    --space-md: calc(var(--space-unit) * 6);   /* 1.5rem */
+    --space-lg: calc(var(--space-unit) * 8);   /* 2rem */
+    --space-xl: calc(var(--space-unit) * 10);  /* 2.5rem */
+    --space-2xl: calc(var(--space-unit) * 12); /* 3rem */
+    --space-3xl: calc(var(--space-unit) * 16); /* 4rem */
+    --space-4xl: calc(var(--space-unit) * 20); /* 5rem */
+    
+    /* Bordas fluidas */
+    --radius-sm: clamp(0.25rem, 0.75vw, 0.5rem);
+    --radius-md: clamp(0.5rem, 1vw, 0.875rem);
+    --radius-lg: clamp(0.75rem, 1.5vw, 1.25rem);
+    
+    /* Breakpoints fluidos */
+    --screen-xs: 375px;
+    --screen-sm: 640px;
+    --screen-md: 768px;
+    --screen-lg: 1024px;
+    --screen-xl: 1280px;
+    --screen-2xl: 1536px;
+    
+    /* Container widths fluidos COM PADDING DE SEGURANÇA */
+    --container-xs: min(100% - 2rem, 100%); /* 1rem de cada lado */
+    --container-sm: min(100% - 3rem, 100%); /* 1.5rem de cada lado */
+    --container-md: min(100% - 4rem, 100%); /* 2rem de cada lado */
+    --container-lg: min(800px, 100% - 4rem);
+    --container-xl: min(1000px, 100% - 4rem);
+    
+    /* Font sizes fluidos com limites mais seguros */
+    --text-xs: clamp(0.75rem, 1.5vw, 0.875rem);
+    --text-sm: clamp(0.875rem, 1.75vw, 1rem);
+    --text-base: clamp(1rem, 2vw, 1.125rem);
+    --text-lg: clamp(1.125rem, 2.25vw, 1.25rem);
+    --text-xl: clamp(1.25rem, 2.5vw, 1.5rem);
+    --text-2xl: clamp(1.5rem, 3vw, 1.875rem);
+    --text-3xl: clamp(1.875rem, 3.75vw, 2.25rem);
+    --text-4xl: clamp(2.25rem, 4.5vw, 3rem);
+    --text-5xl: clamp(2.5rem, 5vw, 3.75rem);
+    --text-6xl: clamp(3rem, 6vw, 4rem);
+    
+    /* Line heights responsivos */
+    --line-height-tight: 1.1;
+    --line-height-base: 1.6;
+    --line-height-relaxed: 1.8;
 }
 
 html {
-    font-size: 16px;
+    font-size: 100%;
     scroll-behavior: smooth;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
+    overflow-x: hidden;
 }
 
 body {
     font-family: var(--font-body);
     background: var(--branco);
     color: var(--cinza-escuro);
-    line-height: 1.7;
+    line-height: var(--line-height-base);
     width: 100%;
     min-height: 100vh;
     margin: 0;
     padding: 0;
     overflow-x: hidden;
+    font-size: var(--text-base);
+    text-rendering: optimizeLegibility;
 }
 
 .livro-container {
@@ -73,88 +118,158 @@ body {
     padding: 0;
 }
 
+/* ===== CONTAINERS FLUIDOS OTIMIZADOS ===== */
+.container {
+    width: 100%;
+    max-width: 100%;
+    margin: 0 auto;
+    /* PADDING LATERAL ADEQUADO para evitar colagem */
+    padding-left: max(1rem, env(safe-area-inset-left));
+    padding-right: max(1rem, env(safe-area-inset-right));
+}
+
+/* Container com largura restrita mas com padding seguro */
+.container-restrito {
+    width: 100%;
+    max-width: var(--container-xs);
+    margin: 0 auto;
+    padding-left: max(1rem, env(safe-area-inset-left));
+    padding-right: max(1rem, env(safe-area-inset-right));
+}
+
+@media (min-width: 640px) {
+    .container-restrito {
+        max-width: var(--container-sm);
+        padding-left: max(1.5rem, env(safe-area-inset-left));
+        padding-right: max(1.5rem, env(safe-area-inset-right));
+    }
+}
+
+@media (min-width: 768px) {
+    .container-restrito {
+        max-width: var(--container-md);
+        padding-left: max(2rem, env(safe-area-inset-left));
+        padding-right: max(2rem, env(safe-area-inset-right));
+    }
+}
+
+@media (min-width: 1024px) {
+    .container-restrito {
+        max-width: var(--container-lg);
+        padding-left: max(2rem, env(safe-area-inset-left));
+        padding-right: max(2rem, env(safe-area-inset-right));
+    }
+}
+
+@media (min-width: 1280px) {
+    .container-restrito {
+        max-width: var(--container-xl);
+    }
+}
+
 /* ===== CAPA ===== */
 .capa {
     min-height: 100vh;
+    min-height: 100dvh;
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    padding: var(--space-xxl) 0;
+    padding: var(--space-3xl) 0;
     background: linear-gradient(135deg, var(--verde-primario) 0%, var(--acento) 100%);
     color: var(--branco);
     text-align: center;
     width: 100%;
+    /* PADDING LATERAL CRÍTICO para telas pequenas */
+    padding-left: max(1rem, env(safe-area-inset-left));
+    padding-right: max(1rem, env(safe-area-inset-right));
 }
 
-.capa-content {
-    max-width: 800px;
-    padding: 0 var(--space-lg);
-    width: 100%;
-    margin: 0 auto;
+.capa .container-restrito {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: var(--space-lg);
+    /* Garantir que o conteúdo não encoste nas bordas */
+    padding-top: var(--space-md);
+    padding-bottom: var(--space-md);
 }
 
 .capa-icon {
-    width: 80px;
-    height: 80px;
-    margin-bottom: var(--space-lg);
+    width: clamp(3rem, 8vw, 5rem);
+    height: clamp(3rem, 8vw, 5rem);
+    margin-bottom: var(--space-md);
     opacity: 0.9;
 }
 
 .titulo-principal {
     font-family: var(--font-display);
-    font-size: clamp(2.5rem, 6vw, 4rem);
+    font-size: var(--text-6xl);
     font-weight: 700;
     margin-bottom: var(--space-md);
-    line-height: 1.1;
+    line-height: var(--line-height-tight);
+    letter-spacing: -0.02em;
+    /* PADDING HORIZONTAL para evitar colagem */
+    padding-left: max(0.5rem, 1vw);
+    padding-right: max(0.5rem, 1vw);
 }
 
 .subtitulo {
-    font-size: clamp(1.1rem, 2.5vw, 1.5rem);
+    font-size: var(--text-xl);
     font-weight: 400;
-    margin-bottom: var(--space-xl);
+    margin-bottom: var(--space-2xl);
     opacity: 0.95;
-    max-width: 600px;
+    max-width: min(600px, 90%);
     margin-left: auto;
     margin-right: auto;
+    line-height: var(--line-height-base);
+    /* PADDING para melhor leitura */
+    padding: 0 max(1rem, 3vw);
 }
 
 .autor {
-    font-size: 1.2rem;
+    font-size: var(--text-lg);
     font-weight: 600;
     letter-spacing: 2px;
     text-transform: uppercase;
-    margin-top: var(--space-xl);
+    margin-top: var(--space-2xl);
     opacity: 0.9;
+    padding: 0 var(--space-sm);
 }
 
 .capa-meta {
     display: flex;
-    gap: var(--space-xl);
-    margin-top: var(--space-xl);
+    gap: clamp(var(--space-md), 4vw, var(--space-xl));
+    margin-top: var(--space-2xl);
     flex-wrap: wrap;
     justify-content: center;
+    width: 100%;
+    /* PADDING para garantir espaçamento */
+    padding: 0 var(--space-sm);
 }
 
 .meta-item {
     display: flex;
     flex-direction: column;
     align-items: center;
-    gap: var(--space-xs);
+    gap: var(--space-2xs);
+    flex: 1;
+    min-width: 90px;
+    max-width: 150px;
 }
 
 .meta-icon {
-    width: 32px;
-    height: 32px;
+    width: clamp(1.5rem, 3vw, 2rem);
+    height: clamp(1.5rem, 3vw, 2rem);
 }
 
 .meta-valor {
-    font-size: 1.5rem;
+    font-size: var(--text-3xl);
     font-weight: 700;
 }
 
 .meta-label {
-    font-size: 0.85rem;
+    font-size: var(--text-xs);
     opacity: 0.8;
     text-transform: uppercase;
     letter-spacing: 1px;
@@ -162,39 +277,47 @@ body {
 
 /* ===== ÍNDICE ===== */
 .indice-section {
-    padding: var(--space-xxl) 0;
+    padding: var(--space-3xl) 0;
     background: var(--branco);
     width: 100%;
-}
-
-.section-container {
-    max-width: 800px;
-    padding: 0 var(--space-lg);
-    margin: 0 auto;
-    width: 100%;
+    /* PADDING LATERAL para seções */
+    padding-left: max(1rem, env(safe-area-inset-left));
+    padding-right: max(1rem, env(safe-area-inset-right));
 }
 
 .section-header {
     text-align: center;
-    margin-bottom: var(--space-xl);
+    margin-bottom: var(--space-2xl);
+    padding: 0 var(--space-sm);
 }
 
 .section-title {
     font-family: var(--font-display);
-    font-size: 2.5rem;
+    font-size: var(--text-4xl);
     color: var(--cinza-escuro);
     margin-bottom: var(--space-sm);
+    padding: 0 var(--space-sm);
 }
 
 .section-subtitle {
-    font-size: 1.1rem;
+    font-size: var(--text-lg);
     color: var(--cinza-medio);
+    max-width: 600px;
+    margin: 0 auto;
+    padding: 0 var(--space-md);
 }
 
 .indice-grid {
     display: grid;
     gap: var(--space-md);
     width: 100%;
+    grid-template-columns: 1fr;
+}
+
+@media (min-width: 640px) {
+    .indice-grid {
+        grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    }
 }
 
 .indice-item {
@@ -207,12 +330,20 @@ body {
     text-decoration: none;
     color: var(--cinza-escuro);
     border-left: 4px solid var(--verde-primario);
+    transition: transform 0.2s ease;
+    /* PADDING INTERNO adicional em telas pequenas */
+    padding-left: max(var(--space-md), 1.5rem);
+    padding-right: max(var(--space-md), 1.5rem);
+}
+
+.indice-item:active {
+    transform: scale(0.98);
 }
 
 .indice-numero {
     flex-shrink: 0;
-    width: 48px;
-    height: 48px;
+    width: clamp(2.25rem, 5vw, 3rem);
+    height: clamp(2.25rem, 5vw, 3rem);
     background: var(--verde-primario);
     color: var(--branco);
     border-radius: 50%;
@@ -220,52 +351,56 @@ body {
     align-items: center;
     justify-content: center;
     font-weight: 700;
-    font-size: 1.2rem;
+    font-size: var(--text-lg);
 }
 
 .indice-content {
     flex: 1;
+    min-width: 0;
+    /* PADDING direito para evitar colagem com ícone */
+    padding-right: var(--space-xs);
 }
 
 .indice-titulo {
     font-weight: 600;
-    font-size: 1.1rem;
+    font-size: var(--text-base);
     margin-bottom: 4px;
+    line-height: 1.3;
 }
 
 .indice-desc {
-    font-size: 0.9rem;
+    font-size: var(--text-sm);
     color: var(--cinza-medio);
+    line-height: 1.4;
 }
 
 .indice-icon {
-    width: 20px;
-    height: 20px;
+    width: 1.25rem;
+    height: 1.25rem;
     color: var(--cinza-claro);
+    flex-shrink: 0;
 }
 
 /* ===== CAPÍTULOS ===== */
 .capitulo {
-    padding: var(--space-xxl) 0;
+    padding: var(--space-2xl) 0;
     border-bottom: 1px solid var(--cinza-bg);
     width: 100%;
     page-break-before: auto;
+    /* PADDING LATERAL CRÍTICO para conteúdo do capítulo */
+    padding-left: max(1rem, env(safe-area-inset-left));
+    padding-right: max(1rem, env(safe-area-inset-right));
 }
 
 .capitulo:last-of-type {
     border-bottom: none;
 }
 
-.capitulo-container {
-    max-width: 800px;
-    padding: 0 var(--space-lg);
-    margin: 0 auto;
-    width: 100%;
-}
-
 .cap-header {
-    margin-bottom: var(--space-xl);
+    margin-bottom: var(--space-2xl);
     page-break-after: avoid;
+    /* PADDING para evitar colagem */
+    padding: 0 var(--space-sm);
 }
 
 .cap-badge {
@@ -274,9 +409,9 @@ body {
     gap: var(--space-xs);
     background: var(--verde-claro);
     color: var(--verde-primario);
-    padding: 6px 14px;
+    padding: var(--space-2xs) var(--space-sm);
     border-radius: 20px;
-    font-size: 0.85rem;
+    font-size: var(--text-xs);
     font-weight: 600;
     text-transform: uppercase;
     letter-spacing: 0.5px;
@@ -284,30 +419,66 @@ body {
 }
 
 .cap-badge-icon {
-    width: 16px;
-    height: 16px;
+    width: 1rem;
+    height: 1rem;
+    flex-shrink: 0;
 }
 
 .cap-titulo {
     font-family: var(--font-display);
-    font-size: 2.5rem;
+    font-size: var(--text-4xl);
     color: var(--cinza-escuro);
     margin-bottom: var(--space-sm);
-    line-height: 1.2;
+    line-height: var(--line-height-tight);
     page-break-after: avoid;
+    letter-spacing: -0.01em;
+    /* PADDING para títulos longos */
+    padding-right: var(--space-xs);
 }
 
 .cap-subtitulo {
-    font-size: 1.2rem;
+    font-size: var(--text-xl);
     color: var(--cinza-medio);
     font-weight: 400;
     page-break-after: avoid;
+    line-height: 1.4;
+    /* PADDING para subtítulos longos */
+    padding-right: var(--space-sm);
+}
+
+.cap-content {
+    width: 100%;
+    /* PADDING LATERAL NO CONTEÚDO - ESSENCIAL */
+    padding-left: max(0.5rem, 2vw);
+    padding-right: max(0.5rem, 2vw);
+}
+
+@media (min-width: 768px) {
+    .cap-content {
+        padding-left: 0;
+        padding-right: 0;
+    }
 }
 
 .cap-content p {
     margin-bottom: var(--space-md);
-    font-size: 1.05rem;
-    line-height: 1.8;
+    font-size: var(--text-base);
+    line-height: var(--line-height-relaxed);
+    text-align: justify;
+    hyphens: auto;
+    /* MARGEM LATERAL para parágrafos */
+    padding: 0 var(--space-xs);
+}
+
+@media (max-width: 640px) {
+    .cap-content p {
+        text-align: left;
+        text-align: start; /* Melhor para RTL */
+        padding: 0;
+        /* Espaçamento lateral mínimo */
+        margin-left: 0;
+        margin-right: 0;
+    }
 }
 
 .cap-content strong {
@@ -317,18 +488,23 @@ body {
 
 .cap-content h3 {
     font-family: var(--font-display);
-    font-size: 1.8rem;
+    font-size: var(--text-3xl);
     color: var(--cinza-escuro);
-    margin: var(--space-xl) 0 var(--space-md);
+    margin: var(--space-2xl) 0 var(--space-md);
     page-break-after: avoid;
+    line-height: var(--line-height-tight);
+    /* PADDING para headers */
+    padding-right: var(--space-xs);
 }
 
 .cap-content h4 {
-    font-size: 1.3rem;
+    font-size: var(--text-2xl);
     color: var(--cinza-escuro);
     margin: var(--space-lg) 0 var(--space-md);
     font-weight: 600;
     page-break-after: avoid;
+    line-height: 1.4;
+    padding-right: var(--space-xs);
 }
 
 /* ===== CARDS ===== */
@@ -337,78 +513,136 @@ body {
     border: 2px solid var(--cinza-bg);
     border-radius: var(--radius-md);
     padding: var(--space-lg);
-    margin: var(--space-xl) 0;
+    margin: var(--space-2xl) 0;
     page-break-inside: avoid;
+    width: 100%;
+    overflow: hidden;
+    /* PADDING RESPONSIVO para cards */
+    padding-left: max(var(--space-lg), 1.5rem);
+    padding-right: max(var(--space-lg), 1.5rem);
+}
+
+@media (max-width: 640px) {
+    .card {
+        padding: max(var(--space-md), 1.25rem);
+        margin: var(--space-lg) 0;
+    }
 }
 
 .card-header {
     display: flex;
-    align-items: center;
+    align-items: flex-start;
     gap: var(--space-sm);
     margin-bottom: var(--space-md);
     padding-bottom: var(--space-md);
     border-bottom: 2px solid var(--cinza-bg);
+    flex-wrap: wrap;
 }
 
 .card-icon {
-    width: 28px;
-    height: 28px;
+    width: clamp(1.5rem, 3vw, 1.75rem);
+    height: clamp(1.5rem, 3vw, 1.75rem);
     color: var(--verde-primario);
+    flex-shrink: 0;
+    margin-top: 0.125rem;
 }
 
 .card-titulo {
-    font-size: 1.3rem;
+    font-size: var(--text-xl);
     font-weight: 600;
     color: var(--cinza-escuro);
     flex: 1;
+    min-width: min(200px, 100%);
+    line-height: 1.3;
+    /* PADDING para evitar colagem */
+    padding-right: var(--space-sm);
 }
 
 .card-tag {
     background: var(--verde-primario);
     color: var(--branco);
-    padding: 4px 12px;
+    padding: var(--space-2xs) var(--space-sm);
     border-radius: 20px;
-    font-size: 0.8rem;
+    font-size: var(--text-xs);
     font-weight: 600;
+    white-space: nowrap;
+    align-self: flex-start;
 }
 
 .destaque {
     background: var(--verde-claro);
     border-left: 4px solid var(--verde-primario);
     padding: var(--space-lg);
-    margin: var(--space-xl) 0;
+    margin: var(--space-2xl) 0;
     border-radius: 0 var(--radius-md) var(--radius-md) 0;
     font-style: italic;
     color: var(--cinza-escuro);
     page-break-inside: avoid;
+    line-height: var(--line-height-base);
+    /* PADDING LATERAL adicional */
+    padding-left: max(var(--space-lg), 1.5rem);
+    padding-right: max(var(--space-lg), 1.5rem);
+}
+
+@media (max-width: 640px) {
+    .destaque {
+        padding: max(var(--space-md), 1.25rem);
+        margin: var(--space-lg) 0;
+        border-radius: var(--radius-md);
+        border-left: none;
+        border: 2px solid var(--verde-claro);
+    }
 }
 
 .citacao {
     text-align: center;
-    padding: var(--space-xl);
-    margin: var(--space-xl) 0;
+    padding: var(--space-2xl);
+    margin: var(--space-2xl) 0;
     page-break-inside: avoid;
+    background: linear-gradient(to right, transparent, rgba(216, 243, 220, 0.1), transparent);
+    /* PADDING LATERAL seguro */
+    padding-left: max(var(--space-xl), 1.5rem);
+    padding-right: max(var(--space-xl), 1.5rem);
+}
+
+@media (max-width: 640px) {
+    .citacao {
+        padding: max(var(--space-lg), 1.25rem);
+        margin: var(--space-lg) 0;
+    }
 }
 
 .quote-icon {
-    width: 48px;
-    height: 48px;
+    width: clamp(2rem, 4vw, 3rem);
+    height: clamp(2rem, 4vw, 3rem);
     color: var(--verde-claro);
     margin: 0 auto var(--space-md);
 }
 
 .citacao-texto {
     font-family: var(--font-display);
-    font-size: 1.4rem;
+    font-size: var(--text-xl);
     font-style: italic;
     color: var(--cinza-escuro);
     margin-bottom: var(--space-md);
-    line-height: 1.6;
+    line-height: var(--line-height-relaxed);
+    quotes: "“" "”" "‘" "’";
+    /* PADDING para citações longas */
+    padding: 0 var(--space-sm);
+}
+
+.citacao-texto::before {
+    content: open-quote;
+}
+
+.citacao-texto::after {
+    content: close-quote;
 }
 
 .citacao-autor {
     font-weight: 600;
     color: var(--verde-primario);
+    font-size: var(--text-base);
 }
 
 .tecnica {
@@ -416,34 +650,51 @@ body {
     border: 2px solid var(--verde-secundario);
     border-radius: var(--radius-md);
     padding: var(--space-lg);
-    margin: var(--space-xl) 0;
+    margin: var(--space-2xl) 0;
     page-break-inside: avoid;
+    /* PADDING seguro */
+    padding-left: max(var(--space-lg), 1.5rem);
+    padding-right: max(var(--space-lg), 1.5rem);
+}
+
+@media (max-width: 640px) {
+    .tecnica {
+        padding: max(var(--space-md), 1.25rem);
+        margin: var(--space-lg) 0;
+    }
 }
 
 .tecnica-numero {
     display: inline-flex;
     align-items: center;
     justify-content: center;
-    width: 32px;
-    height: 32px;
+    width: clamp(1.75rem, 3.5vw, 2rem);
+    height: clamp(1.75rem, 3.5vw, 2rem);
     background: var(--verde-primario);
     color: var(--branco);
     border-radius: 50%;
     font-weight: 700;
+    font-size: var(--text-sm);
     margin-right: var(--space-sm);
 }
 
 .passos {
     list-style: none;
     counter-reset: step-counter;
+    padding-left: 0;
+    /* PADDING para listas */
+    padding-left: var(--space-xs);
+    padding-right: var(--space-xs);
 }
 
 .passos li {
     counter-increment: step-counter;
     position: relative;
-    padding-left: 48px;
+    padding-left: clamp(2.5rem, 5vw, 3rem);
     margin-bottom: var(--space-md);
     line-height: 1.6;
+    /* Espaço à direita */
+    padding-right: var(--space-xs);
 }
 
 .passos li::before {
@@ -451,8 +702,8 @@ body {
     position: absolute;
     left: 0;
     top: 0;
-    width: 32px;
-    height: 32px;
+    width: clamp(1.75rem, 3.5vw, 2rem);
+    height: clamp(1.75rem, 3.5vw, 2rem);
     background: var(--verde-primario);
     color: var(--branco);
     border-radius: 50%;
@@ -460,26 +711,32 @@ body {
     align-items: center;
     justify-content: center;
     font-weight: 700;
-    font-size: 0.9rem;
+    font-size: var(--text-sm);
 }
 
 .checklist {
     list-style: none;
+    padding-left: 0;
+    /* PADDING para checklist */
+    padding-left: var(--space-xs);
+    padding-right: var(--space-xs);
 }
 
 .checklist li {
     position: relative;
-    padding-left: 36px;
+    padding-left: clamp(2rem, 4vw, 2.25rem);
     margin-bottom: var(--space-sm);
+    line-height: 1.5;
+    padding-right: var(--space-xs);
 }
 
 .checklist li::before {
     content: '';
     position: absolute;
     left: 0;
-    top: 4px;
-    width: 20px;
-    height: 20px;
+    top: 0.25rem;
+    width: clamp(1.125rem, 2.25vw, 1.25rem);
+    height: clamp(1.125rem, 2.25vw, 1.25rem);
     border: 2px solid var(--verde-primario);
     border-radius: 4px;
     background: var(--branco);
@@ -489,11 +746,28 @@ body {
     width: 100%;
     border-collapse: separate;
     border-spacing: 0;
-    margin: var(--space-xl) 0;
+    margin: var(--space-2xl) 0;
     border-radius: var(--radius-md);
     overflow: hidden;
     border: 2px solid var(--cinza-bg);
     page-break-inside: avoid;
+    font-size: var(--text-sm);
+}
+
+@media (max-width: 768px) {
+    .tabela-simples {
+        display: block;
+        overflow-x: auto;
+        -webkit-overflow-scrolling: touch;
+        /* PADDING para tabelas em mobile */
+        margin-left: -0.5rem;
+        margin-right: -0.5rem;
+        width: calc(100% + 1rem);
+    }
+    
+    .tabela-simples table {
+        min-width: 600px;
+    }
 }
 
 .tabela-simples th {
@@ -502,11 +776,19 @@ body {
     padding: var(--space-md);
     text-align: left;
     font-weight: 600;
+    font-size: var(--text-base);
+    /* PADDING lateral mínimo */
+    padding-left: max(var(--space-md), 0.75rem);
+    padding-right: max(var(--space-md), 0.75rem);
 }
 
 .tabela-simples td {
     padding: var(--space-md);
     border-bottom: 1px solid var(--cinza-bg);
+    line-height: 1.4;
+    /* PADDING lateral mínimo */
+    padding-left: max(var(--space-md), 0.75rem);
+    padding-right: max(var(--space-md), 0.75rem);
 }
 
 .tabela-simples tr:last-child td {
@@ -522,19 +804,26 @@ body {
     padding: var(--space-md);
     margin: var(--space-lg) 0;
     page-break-inside: avoid;
+    align-items: flex-start;
+    /* PADDING seguro */
+    padding-left: max(var(--space-md), 1rem);
+    padding-right: max(var(--space-md), 1rem);
 }
 
 .info-box-icon {
-    width: 24px;
-    height: 24px;
+    width: clamp(1.25rem, 2.5vw, 1.5rem);
+    height: clamp(1.25rem, 2.5vw, 1.5rem);
     color: var(--verde-secundario);
     flex-shrink: 0;
+    margin-top: 0.125rem;
 }
 
 .info-box-content {
     flex: 1;
-    font-size: 0.95rem;
+    font-size: var(--text-sm);
     line-height: 1.6;
+    /* PADDING para conteúdo */
+    padding-right: var(--space-xs);
 }
 
 .warning-box {
@@ -546,29 +835,37 @@ body {
     padding: var(--space-md);
     margin: var(--space-lg) 0;
     page-break-inside: avoid;
+    align-items: flex-start;
+    /* PADDING seguro */
+    padding-left: max(var(--space-md), 1rem);
+    padding-right: max(var(--space-md), 1rem);
 }
 
 .warning-box-icon {
-    width: 24px;
-    height: 24px;
+    width: clamp(1.25rem, 2.5vw, 1.5rem);
+    height: clamp(1.25rem, 2.5vw, 1.5rem);
     color: #ff9800;
     flex-shrink: 0;
+    margin-top: 0.125rem;
 }
 
 .separador {
-    max-width: 200px;
+    width: min(200px, 50%);
     height: 2px;
     background: linear-gradient(90deg, transparent, var(--verde-secundario), transparent);
-    margin: var(--space-xl) auto;
+    margin: var(--space-2xl) auto;
 }
 
 /* ===== RODAPÉ ===== */
 .rodape {
     background: var(--cinza-escuro);
     color: var(--branco);
-    padding: var(--space-xxl) 0;
+    padding: var(--space-3xl) 0;
     text-align: center;
     width: 100%;
+    /* PADDING LATERAL seguro */
+    padding-left: max(1rem, env(safe-area-inset-left));
+    padding-right: max(1rem, env(safe-area-inset-right));
 }
 
 .rodape-container {
@@ -576,396 +873,225 @@ body {
     padding: 0 var(--space-lg);
     margin: 0 auto;
     width: 100%;
+    /* PADDING adicional */
+    padding-left: max(var(--space-lg), 1.5rem);
+    padding-right: max(var(--space-lg), 1.5rem);
 }
 
 .rodape-icon {
-    width: 64px;
-    height: 64px;
+    width: clamp(3rem, 6vw, 4rem);
+    height: clamp(3rem, 6vw, 4rem);
     margin: 0 auto var(--space-lg);
     opacity: 0.8;
 }
 
 .rodape-mensagem {
     font-family: var(--font-display);
-    font-size: 1.8rem;
+    font-size: var(--text-3xl);
     margin-bottom: var(--space-lg);
     line-height: 1.4;
+    padding: 0 var(--space-sm);
 }
 
 .rodape-autor {
-    font-size: 1.2rem;
+    font-size: var(--text-xl);
     font-weight: 600;
     margin-bottom: var(--space-xs);
 }
 
 .rodape-titulo {
-    font-size: 0.95rem;
+    font-size: var(--text-sm);
     opacity: 0.7;
 }
 
-/* ===== REGRAS RESPONSIVAS PARA TELA ===== */
-@media (max-width: 768px) {
-    .titulo-principal {
-        font-size: 2.5rem;
-    }
-    .cap-titulo {
-        font-size: 2rem;
-    }
-    .capitulo {
-        padding: var(--space-xl) 0;
-    }
-    .capa-meta {
-        gap: var(--space-md);
+/* ===== MELHORIAS DE RESPONSIVIDADE ===== */
+
+/* 1. SAFE AREA para dispositivos com notch/dynamic island */
+@supports (padding: max(0px)) {
+    .capa,
+    .indice-section,
+    .capitulo,
+    .rodape {
+        padding-left: max(1rem, env(safe-area-inset-left));
+        padding-right: max(1rem, env(safe-area-inset-right));
     }
 }
 
-/* ===== REGRAS AVANÇADAS DE IMPRESSÃO ===== */
-@media print {
-    /* Reset completo para impressão */
-    * {
-        background: transparent !important;
-        color: #000 !important;
-        text-shadow: none !important;
-        box-shadow: none !important;
+/* 2. AJUSTES PARA TELAS MUITO PEQUENAS (< 375px) */
+@media (max-width: 374px) {
+    .container-restrito,
+    .cap-content,
+    .card,
+    .destaque,
+    .citacao,
+    .tecnica {
+        padding-left: max(0.75rem, 3vw);
+        padding-right: max(0.75rem, 3vw);
     }
     
-    /* Configuração de página para livro */
-    @page {
-        size: A4;
-        margin: 2.5cm 2cm;
-        
-        /* Adiciona números de página */
-        @bottom-center {
-            content: counter(page);
-            font-size: 10pt;
-            color: #666;
-        }
+    .titulo-principal {
+        font-size: var(--text-4xl);
+        padding-left: 0.25rem;
+        padding-right: 0.25rem;
     }
     
-    /* Configuração especial para páginas pares/ímpares */
-    @page :left {
-        margin-left: 3cm;
-        margin-right: 1.5cm;
+    .subtitulo {
+        font-size: var(--text-lg);
+        padding: 0 max(0.5rem, 2vw);
     }
     
-    @page :right {
-        margin-left: 1.5cm;
-        margin-right: 3cm;
+    .capa-meta {
+        gap: var(--space-sm);
     }
     
-    /* Remove elementos não essenciais para impressão */
-    .capa,
-    .indice-section,
-    .separador,
-    .rodape,
-    .capa-icon,
-    .meta-icon,
-    .indice-icon,
-    .cap-badge-icon,
-    .card-icon,
-    .quote-icon,
-    .info-box-icon,
-    .warning-box-icon,
-    .rodape-icon {
-        display: none !important;
+    .meta-item {
+        min-width: 70px;
+    }
+}
+
+/* 3. AJUSTES PARA LANDSCAPE EM CELULARES */
+@media (max-height: 500px) and (orientation: landscape) {
+    .capa {
+        min-height: auto;
+        padding: var(--space-xl) 0;
+        padding-left: max(1rem, env(safe-area-inset-left));
+        padding-right: max(1rem, env(safe-area-inset-right));
     }
     
-    /* Configuração do corpo para impressão */
-    body {
-        font-size: 11pt !important;
-        line-height: 1.5 !important;
-        font-family: Georgia, 'Times New Roman', serif !important;
-        background: white !important;
-        color: black !important;
-        width: 100% !important;
-        margin: 0 !important;
-        padding: 0 !important;
+    .capa-icon {
+        width: 2.5rem;
+        height: 2.5rem;
+        margin-bottom: var(--space-sm);
     }
     
-    /* Títulos otimizados para impressão */
-    .cap-titulo {
-        font-size: 18pt !important;
-        font-family: Georgia, serif !important;
-        font-weight: bold !important;
-        margin-top: 0 !important;
-        margin-bottom: 1.2rem !important;
-        padding-top: 1.5rem !important;
-        color: #000 !important;
-        
-        /* Regra CRÍTICA: Evita títulos órfãos */
-        break-after: avoid-page !important;
-        page-break-after: avoid !important;
+    .titulo-principal {
+        font-size: var(--text-3xl);
     }
     
-    .cap-subtitulo {
-        font-size: 13pt !important;
-        color: #444 !important;
-        margin-bottom: 1.5rem !important;
-        break-after: avoid-page !important;
+    .subtitulo {
+        font-size: var(--text-base);
+        margin-bottom: var(--space-lg);
     }
     
-    /* CAPÍTULOS - Início controlado */
     .capitulo {
-        page-break-before: always !important;
-        break-before: page !important;
-        padding: 0 !important;
-        margin: 0 !important;
-        border: none !important;
-        
-        /* Evita que capítulos comecem muito no final */
-        orphans: 4 !important;
-        widows: 4 !important;
+        padding-top: var(--space-lg);
+        padding-bottom: var(--space-lg);
     }
-    
-    /* Cabeçalho do capítulo */
-    .cap-header {
-        margin-bottom: 1.5rem !important;
-        page-break-after: avoid !important;
-        break-after: avoid-page !important;
-        
-        /* Garante que badge + título fiquem juntos */
-        display: block !important;
-    }
-    
-    /* Badge simplificado para impressão */
-    .cap-badge {
-        background: #f0f0f0 !important;
-        color: #000 !important;
-        border: 1px solid #ccc !important;
-        padding: 3px 10px !important;
-        font-size: 9pt !important;
-        display: inline-block !important;
-        margin-bottom: 0.5rem !important;
-    }
-    
-    /* Conteúdo do capítulo */
-    .cap-content {
-        orphans: 3 !important;
-        widows: 3 !important;
+}
+
+/* 4. MELHORIAS DE LEGIBILIDADE */
+@media (max-width: 640px) {
+    body {
+        line-height: var(--line-height-relaxed);
     }
     
     .cap-content p {
-        margin-bottom: 0.8rem !important;
-        text-align: justify !important;
-        font-size: 11pt !important;
-        line-height: 1.5 !important;
+        line-height: var(--line-height-relaxed);
+        /* MARGEM inferior maior para mobile */
+        margin-bottom: var(--space-lg);
     }
     
-    /* Subtítulos internos */
-    .cap-content h3,
-    .cap-content h4 {
-        font-family: Georgia, serif !important;
-        font-weight: bold !important;
-        margin-top: 1.8rem !important;
-        margin-bottom: 0.8rem !important;
-        
-        /* Regra CRÍTICA: Títulos nunca isolados */
-        break-after: avoid-page !important;
-        page-break-after: avoid !important;
-        
-        /* Regra CRÍTICA: Mantém pelo menos 2 linhas após título */
-        break-inside: avoid !important;
+    .titulo-principal,
+    .cap-titulo,
+    .section-title {
+        line-height: var(--line-height-tight);
     }
     
-    .cap-content h3 {
-        font-size: 14pt !important;
-    }
-    
-    .cap-content h4 {
-        font-size: 12pt !important;
-    }
-    
-    /* Cards e containers */
+    /* Aumentar área de toque para links/interações */
+    .indice-item,
     .card,
-    .tecnica,
+    .destaque {
+        min-height: 44px; /* Tamanho mínimo recomendado para toque */
+    }
+}
+
+/* 5. PREVENIR QUEBRA DE TEXTO */
+.cap-titulo,
+.cap-subtitulo,
+.section-title,
+.card-titulo,
+.indice-titulo {
+    overflow-wrap: break-word;
+    word-wrap: break-word;
+    hyphens: auto;
+    /* Adicionar espaçamento mínimo */
+    padding-right: 0.125rem;
+}
+
+/* 6. OTIMIZAÇÃO PARA TELAS GRANDES */
+@media (min-width: 1600px) {
+    .container-restrito {
+        max-width: min(1200px, 80%);
+    }
+    
+    .cap-content p {
+        font-size: var(--text-lg);
+        max-width: 65ch; /* Largura ideal para leitura */
+        margin-left: auto;
+        margin-right: auto;
+    }
+    
+    .card,
     .destaque,
-    .citacao,
+    .tecnica {
+        max-width: 70ch;
+        margin-left: auto;
+        margin-right: auto;
+    }
+}
+
+/* 7. CORREÇÃO PARA FLEXBOX EM MOBILE */
+@media (max-width: 480px) {
+    .card-header,
     .info-box,
     .warning-box {
-        background: #f9f9f9 !important;
-        border: 1px solid #ddd !important;
-        padding: 1rem !important;
-        margin: 1.2rem 0 !important;
-        page-break-inside: avoid !important;
-        break-inside: avoid-page !important;
-        
-        /* Regra CRÍTICA: Garante que conteúdo fique íntegro */
-        orphans: 4 !important;
-        widows: 4 !important;
+        flex-direction: column;
+        align-items: flex-start;
+        gap: var(--space-sm);
     }
     
-    /* Cabeçalho de card simplificado */
-    .card-header {
-        border-bottom: 1px solid #ddd !important;
-        margin-bottom: 0.8rem !important;
-        padding-bottom: 0.8rem !important;
-    }
-    
-    .card-titulo {
-        font-size: 12pt !important;
-        color: #000 !important;
+    .card-icon,
+    .info-box-icon,
+    .warning-box-icon {
+        margin-bottom: var(--space-xs);
     }
     
     .card-tag {
-        background: #666 !important;
-        color: white !important;
-        padding: 2px 8px !important;
-        font-size: 8pt !important;
+        align-self: flex-start;
+        margin-top: var(--space-xs);
     }
-    
-    /* Destaques e citações */
-    .destaque {
-        background: #f5f5f5 !important;
-        border-left: 3px solid #999 !important;
-        font-style: italic !important;
-    }
-    
-    .citacao {
-        text-align: center !important;
-        background: #fafafa !important;
-    }
-    
-    .citacao-texto {
-        font-size: 12pt !important;
-        color: #333 !important;
-    }
-    
-    /* Listas otimizadas */
-    .passos {
-        padding-left: 0 !important;
-    }
-    
-    .passos li {
-        margin-bottom: 0.6rem !important;
-        padding-left: 2.5rem !important;
-    }
-    
-    .passos li::before {
-        width: 22px !important;
-        height: 22px !important;
-        font-size: 9pt !important;
-        background: #666 !important;
-        top: -1px !important;
-    }
-    
-    .checklist li::before {
-        border: 1px solid #666 !important;
-        width: 14px !important;
-        height: 14px !important;
-        top: 3px !important;
-    }
-    
-    /* Tabelas otimizadas */
-    .tabela-simples {
-        border: 1px solid #ccc !important;
-        font-size: 10pt !important;
-        page-break-inside: avoid !important;
-        break-inside: avoid-page !important;
-    }
-    
-    .tabela-simples th {
-        background: #666 !important;
-        color: white !important;
-        padding: 6px !important;
-    }
-    
-    .tabela-simples td {
-        padding: 6px !important;
-        border: 1px solid #eee !important;
-    }
-    
-    /* Container principal */
-    .livro-container {
-        width: 100% !important;
-        max-width: none !important;
-        margin: 0 !important;
-        padding: 0 !important;
-        background: white !important;
-    }
-    
-    /* Links */
-    a {
-        color: #000 !important;
-        text-decoration: none !important;
-    }
-    
-    a[href^="http"]::after {
-        content: " (" attr(href) ")";
-        font-size: 9pt;
-        color: #666;
-    }
-    
-    /* Regra ESPECIAL para evitar títulos isolados */
-    h2, h3, h4 {
-        /* Se o título está muito perto do final da página */
-        page-break-after: avoid !important;
-        break-after: avoid-page !important;
-        
-        /* Mantém pelo menos 3 linhas com o título */
-        orphans: 3 !important;
-    }
-    
-    /* Garante que tabelas não sejam cortadas */
-    table {
-        page-break-inside: avoid !important;
-    }
-    
-    /* Evita que listas sejam cortadas */
-    ul, ol {
-        page-break-inside: avoid !important;
-    }
-    
-    /* Controla quantidade mínima de linhas no final/início da página */
-    p {
-        orphans: 3 !important;
-        widows: 3 !important;
-    }
-    
-    /* Adiciona margem extra no topo da primeira página de cada capítulo */
-    .capitulo:first-of-type .cap-header {
-        padding-top: 2cm !important;
-    }
-    
-    /* Números de páginas nos capítulos */
-    .capitulo::after {
+}
+
+/* 8. UTILITÁRIOS RESPONSIVOS */
+.hide-xs {
+    display: none;
+}
+
+@media (min-width: 641px) {
+    .hide-xs {
         display: block;
-        text-align: center;
-        font-size: 9pt;
-        color: #999;
-        margin-top: 2rem;
-        content: "— " counter(page) " —";
     }
     
-    /* Remove espaçamento extra */
-    .capitulo > *:first-child {
-        margin-top: 0 !important;
-    }
-    
-    /* Ajusta altura de linha para melhor legibilidade em papel */
-    * {
-        line-height: 1.5 !important;
+    .hide-sm {
+        display: none;
     }
 }
 
-/* Regra adicional para visualização de impressão no navegador */
-@media print and (color) {
-    * {
-        -webkit-print-color-adjust: exact !important;
-        print-color-adjust: exact !important;
-        color-adjust: exact !important;
+/* 9. ANIMAÇÕES SUAVES PARA INTERAÇÕES */
+@media (prefers-reduced-motion: no-preference) {
+    .indice-item,
+    .card,
+    .destaque {
+        transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+    
+    .indice-item:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
     }
 }
 
-/* Fallback para navegadores mais antigos */
-@page {
-    @top-center {
-        content: none;
-    }
-    @bottom-center {
-        content: none;
-    }
-}
-    </style>
+</style>
 </head>
 <body>
     <div class="livro-container">
